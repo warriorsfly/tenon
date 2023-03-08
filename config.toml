@@ -1,0 +1,4 @@
+TESTING = false
+DEBUG = false
+
+SQLALCHEMY_DATABASE_URI = "postgresql://username:password@hostname/database"
