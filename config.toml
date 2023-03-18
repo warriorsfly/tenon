@@ -2,3 +2,12 @@ TESTING = false
 DEBUG = false
 
 SQLALCHEMY_DATABASE_URI = "postgresql://username:password@hostname/database"
+CELERY_BROKER_URL = ""
+CELERY_RESULT_BACKEND = ""
+
+MAIL_SERVER = ""
+MAIL_PORT = ""
+
+MAIL_USERNAME = "allenzhang@nexchip.com.cn"
+MAIL_PASSWORD = "allenzhang"
+MAIL_DEFAULT_SENDER = "allenzhang@nexchip.com.cn"

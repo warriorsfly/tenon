@@ -1,0 +1,40 @@
+version: "3.9"
+services:
+  db:
+    image: postgres
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=allen
+      - POSTGRES_PASSWORD=zhang
+      - POSTGRES_DB=tenon
+    ports:
+      - "5432:5432"
+    volumes:
+      - database_data:/var/lib/postgres/data
+    restart: always
+
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data:/var/lib/redis/data
+    restart: always
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+      - "61613:61613"
+    volumes:
+      - rabbitmq_data:/var/lib/redis/data
+    restart: always
+volumes:
+  database_data:
+    driver: local
+  redis_data:
+    driver: local
+  rabbitmq_data:
+    driver: local
