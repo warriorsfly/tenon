@@ -1,14 +1,15 @@
 version: "3.9"
 services:
-  db:
-    image: postgres
-    container_name: postgres
+  mysql:
+    image: mysql
+    container_name: mysql
     environment:
-      - POSTGRES_USER=allen
-      - POSTGRES_PASSWORD=zhang
-      - POSTGRES_DB=tenon
+      - MYSQL_USER=allenzhang
+      - MYSQL_PASSWORD=Live20180812
+      - MYSQL_DATABASE=tenon
+      - MYSQL_ROOT_PASSWORD=20180812
     ports:
-      - "5432:5432"
+      - "3306:3306"
     volumes:
       - database_data:/var/lib/postgres/data
     restart: always

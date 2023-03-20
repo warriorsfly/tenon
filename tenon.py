@@ -1,9 +1,8 @@
-from app import create_app, db
+from app import db,app,celery,migrate
 from app.models import User, Role
 from flask_migrate import Migrate
 
-app = create_app()
-migrate = Migrate(app, db)
+
 
 
 @app.shell_context_processor
