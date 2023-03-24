@@ -16,3 +16,5 @@ result_backend = "rpc://guest:guest@localhost:5672"
 # event_serializer = "pickle"
 # result_serializer = "pickle"
 # task_serializer = "pickle"
+[prometheus]
+service_name = "service_tenon"
