@@ -10,14 +10,14 @@ MAIL_DEFAULT_SENDER = "519056575@qq.com"
 
 SQLALCHEMY_DATABASE_URI = "mysql://allenzhang:Live20180812@127.0.0.1:3306/tenon"
 
+SOCKETIO_MESSAGE_QUEUE = "amqp://guest:guest@localhost:5672"
+
+SOCKETIO_HOST = "0.0.0.0"
+SOCKETIO_PORT = 5001
 [CELERY]
 broker_url = "amqp://guest:guest@localhost:5672"
 result_backend = "rpc://guest:guest@localhost:5672"
-# event_serializer = "pickle"
-# result_serializer = "pickle"
-# task_serializer = "pickle"
 [PROMETHEUS]
 service_name = "service_tenon"
-[SOCKETIO]
-message_queue = "amqp://guest:guest@localhost:5672"
+
 

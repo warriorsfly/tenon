@@ -53,9 +53,11 @@ def create_celery(flsk: Flask) -> Celery:
     flsk.extensions["celery"] = celery_app
     return celery_app
 def create_socketio(flsk:Flask) -> SocketIO:
-    socketio = SocketIO(flsk, message_queue = flsk.config['SOCKETIO.message_queue'])
+    socketio = SocketIO(
+        flsk, message_queue=flsk.config['SOCKETIO_MESSAGE_QUEUE'])
     flsk.extensions['socketio'] = socketio
-    socketio.run(flsk)
+    socketio.run(flsk, flsk.config["SOCKETIO_HOST"],
+                 port=flsk.config["SOCKETIO_PORT"])
     return socketio
 
 

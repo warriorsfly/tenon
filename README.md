@@ -1,0 +1,1 @@
+celery worker -A tenon.celery -P eventlet -C 32

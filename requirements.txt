@@ -15,6 +15,8 @@ click-didyoumean==0.3.0
 click-plugins==1.1.1
 click-repl==0.2.0
 Deprecated==1.2.13
+dnspython==2.3.0
+eventlet==0.33.3
 Flask==2.2.3
 flask-authz==2.5.0
 Flask-HTTPAuth==4.7.0
@@ -30,10 +32,7 @@ greenlet==2.0.2
 grpcio==1.51.3
 humanize==4.6.0
 idna==3.4
-akoiujjmjuftfr5ed6
-yuuuyyyy6
-j8k8k0k'098y7h0
-mhfdsxaaaaaaasdfg45rt6y7uiiol;//hyyjjjuuhhhhhhhhhhhgffffffffffd
+importlib-metadata==6.0.0
 itsdangerous==2.1.2
 Jinja2==3.1.2
 kombu==5.2.4
