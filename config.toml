@@ -1,6 +1,6 @@
 TESTING = false
 DEBUG = false
-
+SECRET_KEY = "nexchip"
 MAIL_SERVER = ""
 MAIL_PORT = ""
 
@@ -16,5 +16,8 @@ result_backend = "rpc://guest:guest@localhost:5672"
 # event_serializer = "pickle"
 # result_serializer = "pickle"
 # task_serializer = "pickle"
-[prometheus]
+[PROMETHEUS]
 service_name = "service_tenon"
+[SOCKETIO]
+message_queue = "amqp://guest:guest@localhost:5672"
+

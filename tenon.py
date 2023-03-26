@@ -1,4 +1,4 @@
-from app import db,app,celery,migrate
+from app import db,app,celery,migrate,socketio
 from app.models import User, Role
 from flask_migrate import Migrate
 

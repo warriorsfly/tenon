@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 from flask_moment import Moment
 from celery import Celery, Task
+from flask_socketio import SocketIO, emit, join_room
 from opentelemetry.instrumentation.flask import FlaskInstrumentor
 # from opentelemetry.instrumentation.sqlalchemy import SQLAlchemyInstrumentor
 
@@ -16,6 +17,7 @@ from opentelemetry.instrumentation.flask import FlaskInstrumentor
 # from opentelemetry.sdk.trace.export import SimpleSpanProcessor
 
 import toml
+
 
 
 def create_app() -> Flask:
@@ -40,16 +42,21 @@ def create_app() -> Flask:
 
 
 def create_celery(flsk: Flask) -> Celery:
-    class TenonTask(Task):
+    class ContextTask(Task):
         def __call__(self, *args: object, **kwargs: object) -> object:
             with flsk.app_context():
                 return self.run(*args, **kwargs)
 
-    celery_app = Celery(flsk.name, task_cls=TenonTask)
+    celery_app = Celery(flsk.name, task_cls=ContextTask)
     celery_app.config_from_object(flsk.config["CELERY"])
     celery_app.set_default()
     flsk.extensions["celery"] = celery_app
     return celery_app
+def create_socketio(flsk:Flask) -> SocketIO:
+    socketio = SocketIO(flsk, message_queue = flsk.config['SOCKETIO.message_queue'])
+    flsk.extensions['socketio'] = socketio
+    socketio.run(flsk)
+    return socketio
 
 
 mail = Mail()
@@ -58,4 +65,5 @@ db = SQLAlchemy()
 
 app = create_app()
 celery = create_celery(app)
+socketio = create_socketio(app)
 migrate = Migrate(app, db)
