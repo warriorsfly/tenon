@@ -44,28 +44,27 @@ class Role(db.Model):
 
 class RoleUserLink(db.Model):
     __tablename__ = 'role_user_link'
-    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    role_id = db.Column(db.Integer, db.ForeignKey(
+        'roles.id'), primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey(
+        'users.id'), primary_key=True)
 
 
-class Factory(db.Model):
-    __tablename__ = 'factories'
-    code = db.Column(db.String(10), primary_key=True)
-    name = db.Column(db.String(64), unique=True)
+class UserGroup(db.Model):
+    __tablename__ = 'user_groups'
 
-
-class Department(db.Model):
-    __tablename__ = 'departments'
-
-    id = db.Column(db.Integer, )
-    code = db.Column(db.String(10), primary_key=True)
-    name = db.Column(db.String(64), unique=True)
+    id = db.Column(db.Integer, primary_key=True)
+    pid = db.Column(db.Integer)
+    code = db.Column(db.String(10))
+    name = db.Column(db.String(64))
+    short_name = db.Column(db.String(10))
     module_id = db.Column(db.String(10), unique=True)
     users = db.relationship('User', backref='department', lazy='dynamic')
 
-class Section(db.Model):
-    __tablename__ = 'sections'
-    code = db.Column(db.String(10), primary_key=True)
-    d_code = db.Column(db.Integer, db.ForeignKey('roles.id'))
-    name = db.Column(db.String(64), unique=True)
-    module_id = db.Column(db.String(10), unique=True)
+
+class GroupUserLink(db.Model):
+    __tablename__ = 'group_user_link'
+    group_id = db.Column(db.Integer, db.ForeignKey(
+        'user_groups.id'), primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey(
+        'users.id'), primary_key=True)

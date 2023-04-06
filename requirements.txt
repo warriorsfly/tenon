@@ -26,6 +26,7 @@ Flask-Migrate==4.0.4
 Flask-Moment==1.0.5
 Flask-SocketIO==5.3.3
 Flask-SQLAlchemy==3.0.3
+flask-swagger==0.2.14
 flower==1.2.0
 googleapis-common-protos==1.59.0
 greenlet==2.0.2
@@ -61,6 +62,7 @@ PyJWT==2.6.0
 python-engineio==4.4.0
 python-socketio==5.8.0
 pytz==2022.7.1
+PyYAML==6.0
 requests==2.28.2
 simpleeval==0.9.13
 six==1.16.0
