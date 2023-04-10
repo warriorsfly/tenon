@@ -1,7 +1,8 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 from flask_moment import Moment
+from flask_swagger import swagger
 from celery import Celery, Task
 from flask_socketio import SocketIO, emit, join_room
 from opentelemetry.instrumentation.flask import FlaskInstrumentor
@@ -65,3 +66,8 @@ db = SQLAlchemy()
 app = create_app()
 celery = create_celery(app)
 socketio = create_socketio(app)
+
+
+@app.route("/spec")
+def spec():
+    return jsonify(swagger(app))

@@ -14,6 +14,11 @@ SOCKETIO_MESSAGE_QUEUE = "amqp://guest:guest@localhost:5672"
 
 SOCKETIO_HOST = "0.0.0.0"
 SOCKETIO_PORT = 5001
+
+# casbin settings
+CASBIN_MODEL = "model.conf"
+CASBIN_OWNER_HEADERS = "{'X-User', 'X-Group'}"
+CASBIN_USER_NAME_HEADERS = "{'X-User'}"
 [CELERY]
 broker_url = "amqp://guest:guest@localhost:5672"
 result_backend = "rpc://guest:guest@localhost:5672"
