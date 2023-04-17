@@ -48,24 +48,8 @@ class User(UserMixin, db.Model):
     #     return check_password_hash(self.password_hash, password)
 
 
-class Role(db.Model):
-    __tablename__ = 'roles'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), unique=True)
-    default = db.Column(db.Boolean, default=False, index=True)
-    # permissions = db.Column(db.Integer)
-    users = db.relationship('User', secondary='role_user_link')
-
-
-class RoleUserLink(db.Model):
-    __tablename__ = 'role_user_link'
-    role_id = db.Column(db.Integer, db.ForeignKey(
-        'roles.id'), primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey(
-        'users.id'), primary_key=True)
-
-
 class UserGroup(db.Model):
+    """用户组:factory-厂别；department:部门;section-课；team-小组"""
     __tablename__ = 'user_groups'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -73,8 +57,9 @@ class UserGroup(db.Model):
     code = db.Column(db.String(10))
     name = db.Column(db.String(64))
     short_name = db.Column(db.String(10))
-    module_id = db.Column(db.String(10), unique=True)
+    
     users = db.relationship('User', secondary='group_user_link')
+    roles = db.relationship('Role', secondary='group_user_link')
 
 
 class GroupUserLink(db.Model):
@@ -83,3 +68,76 @@ class GroupUserLink(db.Model):
         'user_groups.id'), primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(
         'users.id'), primary_key=True)
+
+
+class Role(db.Model):
+    """厂长，处长、副处长、部经理、副经理、课级主管、副理，PE，EE"""
+    __tablename__ = 'roles'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), unique=True)
+    short_name = db.Column(db.String(10))
+    power = db.Column(db.Integer)
+    # permissions = db.Column(db.Integer)
+    user_groups = db.relationship('UserGroup', secondary='user_group_role_link')
+    apis = db.relationship('ApiStore', secondary='role_api_permissions_link')
+    menus = db.relationship('MenuStore', secondary='role_menu_permissions_link')
+
+
+class GroupRoleLink(db.Model):
+    __tablename__ = 'user_group_role_link'
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'), primary_key=True)
+    user_group_id = db.Column(db.Integer, db.ForeignKey(
+        'user_groups.id'), primary_key=True)
+
+class ApiStore(db.Model):
+    __tablename__ = "api_store"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    url = db.Column(db.String(255), comment='api url')
+    group = db.Column(db.String(512), comment='api group')
+    brief = db.Column(db.Text, comment='comment')
+    request_method = db.Column(db.String(200), comment='method')
+    is_delete = db.Column(db.Boolean, default=0)
+    
+class RoleApiPermission(db.Model):
+    __tablename__ = "role_api_permissions_link"
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'), primary_key=True)
+    api_id = db.Column(db.Integer, db.ForeignKey('api_store.id'), primary_key=True)
+
+class MenuStore(db.Model):
+    __tablename__ = "menu_store"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    pid = db.Column(db.Integer, comment='parent menu id')
+    name = db.Column(db.String(200))
+    en_name = db.Column(db.String(200))
+    icon = db.Column(db.String(200))
+    url = db.Column(db.String(200))
+    sort = db.Column(db.Integer)
+    is_delete = db.Column(db.Boolean, default=0)
+
+class RoleMenuPermission(db.Model):
+    __tablename__ = "role_menu_permissions_link"
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'), primary_key=True)
+    menu_id = db.Column(db.Integer, db.ForeignKey('menu_store.id'), primary_key=True) 
+
+class CasbinRule(db.Model):
+    __tablename__ = "casbin_rule"
+
+    id = db.Column(db.Integer, primary_key=True)
+    ptype = db.Column(db.String(255))
+    v0 = db.Column(db.String(255))
+    v1 = db.Column(db.String(255))
+    v2 = db.Column(db.String(255))
+    v3 = db.Column(db.String(255))
+    v4 = db.Column(db.String(255))
+    v5 = db.Column(db.String(255))
+
+    def __str__(self):
+        arr = [self.ptype]
+        for v in (self.v0, self.v1, self.v2, self.v3, self.v4, self.v5):
+            if v is None:
+                break
+            arr.append(v)
+        return ", ".join(arr)
+
+    def __repr__(self):
+        return '<CasbinRule {}: "{}">'.format(self.id, str(self))
